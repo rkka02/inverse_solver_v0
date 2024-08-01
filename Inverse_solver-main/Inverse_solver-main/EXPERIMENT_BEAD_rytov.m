@@ -5,9 +5,9 @@ cd0 = cd0(1:strfind(cd0,'EXPERIMENT_BEAD.m')-2);
 addpath(genpath(cd0));
 used_gpu_device=1;
 gpu_device=gpuDevice(used_gpu_device);
-addpath(genpath('C:\rkka_Projects\inverse_solver\Inverse_solver-main\Inverse_solver-main\Codes'));
+addpath(genpath('C:\rkka_Projects\inverse_solver_v0\Inverse_solver-main\Inverse_solver-main\Codes'));
 %% set the experimental parameters
-cddata = fullfile(cd0, 'C:\rkka_Projects\inverse_solver\Inverse_solver-main\Inverse_solver-main\Data');
+cddata = fullfile(cd0, 'C:\rkka_Projects\inverse_solver_v0\Inverse_solver-main\Inverse_solver-main\Data');
 bg_file = fullfile(cddata, 'SiO2_1_bg.tif');
 sp_file = fullfile(cddata, 'SiO2_1_sp.tif');
 

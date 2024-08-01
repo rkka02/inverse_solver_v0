@@ -130,12 +130,11 @@ classdef FIELD_EXPERIMENTAL_RETRIEVAL < handle
             %2 match to the resolution
             old_side_size=size(input_field,1);
             resolution_ratio=h.parameters.resolution(1)/h.parameters.resolution_image(1);
-            %if resolution_ratio>=1
-                %crop
-            %    crop_size=round((1/2)*(size(input_field,1)-size(input_field,1)./resolution_ratio));
-            %    input_field=input_field(1+crop_size:end-crop_size,1+crop_size:end-crop_size,:);
-            %    output_field=output_field(1+crop_size:end-crop_size,1+crop_size:end-crop_size,:);
-            %end
+            if resolution_ratio>=1
+                crop_size=round((1/2)*(size(input_field,1)-size(input_field,1)./resolution_ratio));
+                input_field=input_field(1+crop_size:end-crop_size,1+crop_size:end-crop_size,:);
+                output_field=output_field(1+crop_size:end-crop_size,1+crop_size:end-crop_size,:);
+            end
             if resolution_ratio<1
                 %padd
                 padd_size=-round((1/2)*(size(input_field,1)-size(input_field,1)./resolution_ratio));
