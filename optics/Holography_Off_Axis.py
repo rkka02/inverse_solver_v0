@@ -28,9 +28,12 @@ class Holography_Off_Axis:
         # Iteration for all illumination angle : range(Z)
         for i in tqdm(range(Z)):
             # Normalization
-            normalization = np.sum(background_hologram[i]) / N / N
-            background_hologram_temp = background_hologram[i] / normalization
-            sample_hologram_temp = sample_hologram[i] / normalization
+            # normalization = np.sum(background_hologram[i]) / N / N
+            # background_hologram_temp = background_hologram[i] / normalization
+            # sample_hologram_temp = sample_hologram[i] / normalization
+            
+            background_hologram_temp = background_hologram[i]
+            sample_hologram_temp = sample_hologram[i]
             
             # Fourier transform
             back_temp = np.fft.fftshift(np.fft.fft2(background_hologram_temp))
@@ -48,6 +51,11 @@ class Holography_Off_Axis:
             
             background_object_field[i] = np.fft.ifft2(back_temp)
             sample_object_field[i] = np.fft.ifft2(sample_temp)
+            
+            normalization_factor = np.sum(np.abs(background_object_field[i]))/N/N
+            
+            background_object_field[i] = background_object_field[i] / normalization_factor
+            sample_object_field[i] = sample_object_field[i] / normalization_factor
         
         return background_object_field, sample_object_field
         
