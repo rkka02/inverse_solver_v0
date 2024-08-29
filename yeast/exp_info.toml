@@ -1,0 +1,11 @@
+[device]
+NA = 1.2
+immersion_refractive_index = 1.33
+resolution = [0.082, 0.082]
+resolution_unit = "μm"
+wavelength = 0.532
+wavelength_unit = "μm"
+
+[sample]
+sample_name = "Phatus"
+medium_refractive_index = 1.3538

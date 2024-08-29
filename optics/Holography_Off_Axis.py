@@ -15,8 +15,8 @@ class Holography_Off_Axis:
     def get_object_field(background_hologram, sample_hologram):
         # Calculate reference shifts to retrieve position of F[UR*]
         cutoff = 1/3
-        shifts = get_reference_shifts(first_background_hologram=background_hologram[0], cutoff=cutoff)
-        
+        ref_shift = get_reference_shifts(first_background_hologram=background_hologram[0], cutoff=cutoff)
+
         # Initialize object fields
         Z, N, _ = background_hologram.shape
         background_object_field = np.zeros((Z, N, N), dtype=np.complex64)
@@ -41,18 +41,18 @@ class Holography_Off_Axis:
             
             # F[UR*] -> F[U] : Shifting in the fourier domain is equivalent to dividing in the real domain.
             # Then *filter : Remove DC term and another off-axis term
-            back_temp = np.roll(back_temp, shift=shifts[0], axis=0)
-            back_temp = np.roll(back_temp, shift=shifts[1], axis=1)
+            back_temp = np.roll(back_temp, shift=ref_shift[0], axis=0)
+            back_temp = np.roll(back_temp, shift=ref_shift[1], axis=1)
             back_temp = back_temp * filter
             
-            sample_temp = np.roll(sample_temp, shift=shifts[0], axis=0)
-            sample_temp = np.roll(sample_temp, shift=shifts[1], axis=1)
+            sample_temp = np.roll(sample_temp, shift=ref_shift[0], axis=0)
+            sample_temp = np.roll(sample_temp, shift=ref_shift[1], axis=1)
             sample_temp = sample_temp * filter
             
             background_object_field[i] = np.fft.ifft2(back_temp)
             sample_object_field[i] = np.fft.ifft2(sample_temp)
             
-            normalization_factor = np.sum(np.abs(background_object_field[i]))/N/N
+            normalization_factor = np.sum(background_object_field[i])/N/N
             
             background_object_field[i] = background_object_field[i] / normalization_factor
             sample_object_field[i] = sample_object_field[i] / normalization_factor
