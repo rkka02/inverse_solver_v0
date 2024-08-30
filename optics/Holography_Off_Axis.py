@@ -36,8 +36,8 @@ class Holography_Off_Axis:
             sample_hologram_temp = sample_hologram[i]
             
             # Fourier transform
-            back_temp = np.fft.fftshift(np.fft.fft2(background_hologram_temp))
-            sample_temp = np.fft.fftshift(np.fft.fft2(sample_hologram_temp))
+            back_temp = np.fft.fftshift(np.fft.fft2(np.fft.ifftshift(background_hologram_temp)))
+            sample_temp = np.fft.fftshift(np.fft.fft2(np.fft.ifftshift(sample_hologram_temp)))
             
             # F[UR*] -> F[U] : Shifting in the fourier domain is equivalent to dividing in the real domain.
             # Then *filter : Remove DC term and another off-axis term
@@ -49,10 +49,10 @@ class Holography_Off_Axis:
             sample_temp = np.roll(sample_temp, shift=ref_shift[1], axis=1)
             sample_temp = sample_temp * filter
             
-            background_object_field[i] = np.fft.ifft2(back_temp)
-            sample_object_field[i] = np.fft.ifft2(sample_temp)
+            background_object_field[i] = np.fft.ifftshift(np.fft.ifft2(np.fft.fftshift(back_temp)))
+            sample_object_field[i] = np.fft.ifftshift(np.fft.ifft2(np.fft.fftshift(sample_temp)))
             
-            normalization_factor = np.sum(background_object_field[i])/N/N
+            normalization_factor = np.sum(np.abs(background_object_field[i]))/N/N
             
             background_object_field[i] = background_object_field[i] / normalization_factor
             sample_object_field[i] = sample_object_field[i] / normalization_factor

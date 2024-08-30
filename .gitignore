@@ -9,6 +9,7 @@ node_modules
 output
 
 /1
+/recon_results
 SiO2_1_bg.tif
 SiO2_1_sp.tif
 background.tif
